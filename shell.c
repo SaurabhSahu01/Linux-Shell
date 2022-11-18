@@ -4,8 +4,11 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<string.h>
-
+#include<dirent.h>
 char** split_the_line(char*);
+int stringlength(char* string);
+int findlastposition(char, char*);
+char* getDirName(char* path);
 
 int main(){
 	// getting the current working directory and saving its path for future reference
@@ -21,8 +24,10 @@ int main(){
     char command[100];
     char cwd[100];
     do{
+        printf("\033[1;32m%s-virtualterminal: ",getenv("USER"));
+        printf("\033[0;34m%s ", getDirName(getcwd(cwd, 100)));
         printf("\033[1;0m");
-        printf("%s-virtualterminal %s $ ",getenv("USER"), getcwd(cwd, 100));
+        printf("$ ");
         fflush(stdin);
         scanf("%[^\n]%*c", command);
 
@@ -166,3 +171,33 @@ char** split_the_line(char* line){
     return token;
 }
 /* end */
+
+// function to get the length of the string
+int stringlength(char* string){
+    int i= 0;
+    while(string[i] != '\0'){
+        i++;
+    }
+    return i;
+}
+
+// function to find the last position of the character provided by the user
+int findlastposition(char ch, char* string){
+    int i=0,j=0;
+    while(string[i] != '\0'){
+        if(string[i] == ch){
+            j = i;
+        }
+        i++;
+    }
+    return j;
+}
+
+// function to get the directory name of the current working directory
+char* getDirName(char* path){
+    int length = stringlength(path);
+    int position = findlastposition('/', path);
+    char* dirname;
+    strncpy(dirname, path + position + 1, sizeof(dirname) + sizeof(path));
+    return dirname;
+}
