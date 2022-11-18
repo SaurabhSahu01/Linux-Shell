@@ -198,6 +198,6 @@ char* getDirName(char* path){
     int length = stringlength(path);
     int position = findlastposition('/', path);
     char* dirname;
-    strncpy(dirname, path + position + 1, sizeof(dirname) + sizeof(path));
+    strncpy(dirname, path + position + 1, length - position);
     return dirname;
 }
